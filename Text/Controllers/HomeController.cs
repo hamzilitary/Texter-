@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Text.Models;
 
 namespace Text.Controllers
 {
@@ -13,23 +14,22 @@ namespace Text.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult GetMessages()
         {
-            ViewData["Message"] = "Your application description page.";
+            var allMessages = Message.GetMessages();
+            return View(allMessages);
+        }
 
+        public IActionResult SendMessage()
+        {
             return View();
         }
 
-        public IActionResult Contact()
+        [HttpPost]
+        public IActionResult SendMessage(Message newMessage)
         {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Error()
-        {
-            return View();
+            newMessage.Send();
+            return RedirectToAction("Index");
         }
     }
 }
